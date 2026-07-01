@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 from account.models import User
+from django.core import validators
 
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
@@ -29,14 +30,20 @@ class UserCreationForm(forms.ModelForm):
             user.save()
         return user
 
-
 class UserChangeForm(forms.ModelForm):
-    """A form for updating users. Includes all the fields on
-    the user, but replaces the password field with admin's
-    disabled password hash display field.
-    """
     password = ReadOnlyPasswordHashField()
 
     class Meta:
         model = User
         fields = [ "full_name", "password", "email", 'phone', "is_active", "is_staff"]
+
+class LoginForm(forms.Form):
+    username = forms.CharField(label='Enter username',widget=forms.TextInput(attrs={'class': 'form-control'}), validators=[validators.MaxLengthValidator(25)])
+    password = forms.CharField(label='Enter password', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+
+
+class OtpLoginForm(forms.Form):
+    phone = forms.CharField(label='Enter phone',widget=forms.TextInput(attrs={'class': 'form-control'}), validators=[validators.MaxLengthValidator(11)])
+
+class OtpForm(forms.Form):
+    random_code = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), validators=[validators.MaxLengthValidator(4)])

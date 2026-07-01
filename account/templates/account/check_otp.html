@@ -21,7 +21,7 @@
     <!-- Contact Start -->
     <div class="container-fluid">
         <h2 class="section-title position-relative text-uppercase text-center mx-xl-5 mb-4"><span
-                class="bg-secondary pr-3">Login</span></h2>
+                class="bg-secondary pr-3">Check code</span></h2>
         <div class=" px-xl-5">
             <div class=" mb-5 contact-us" style="">
                 <div class="contact-form bg-light p-30">
@@ -32,14 +32,9 @@
                             {% for error in form.non_field_errors %}
                                 <P class="alert alert-danger">{{ error }}</P>
                             {% endfor %}
-                            {{ form.username.label }}
-                            {{ form.username }}
-                            {{ form.username.errors }}
-                            <p class="help-block text-danger"></p>
-                        </div>
-                        <div class="control-group">
-                            {{ form.password.label }}
-                            {{ form.password }}
+                            {{ form.random_code.label }}
+                            {{ form.random_code }}
+                            {{ form.random_code.errors }}
                             <p class="help-block text-danger"></p>
                         </div>
                         <div>
