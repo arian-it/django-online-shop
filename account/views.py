@@ -30,7 +30,7 @@ class OtpLoginView(View):
 
     def get(self, request):
         form = OtpLoginForm()
-        return render(request, 'account/register.html', {'form': form})
+        return render(request, 'account/auth.html', {'form': form})
 
     def post(self, request):
         form = OtpLoginForm(request.POST)
@@ -43,7 +43,7 @@ class OtpLoginView(View):
         else:
             form.add_error(None ,'Invalid phone.')
 
-        return render(request, 'account/register.html', {'form': form})
+        return render(request, 'account/auth.html', {'form': form})
 
 
 class CheckOtpView(View):
@@ -56,14 +56,14 @@ class CheckOtpView(View):
         token = request.GET.get('token')
         form = OtpForm(request.POST)
         if form.is_valid():
-            if Otp.objects.filter(token=token, random_code=form.cleaned_data['random_code']).exists():
-                otp = Otp.objects.get(token=token)
+            otp = Otp.objects.filter(token=token, random_code=form.cleaned_data['random_code']).first()
+            if otp is None:
+                form.add_error(None ,'Invalid OTP.')
+            else:
                 user, _ = User.objects.get_or_create(phone=otp.phone)
                 login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                otp.delete()
                 return redirect('/')
-        else:
-            form.add_error(None ,'Invalid Code.')
-
         return render(request, 'account/check_otp.html', {'form': form})
 
 

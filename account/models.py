@@ -19,7 +19,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Otp(models.Model):
-    phone = models.CharField(max_length=11, unique=True, verbose_name="phone number")
+    phone = models.CharField(max_length=11, verbose_name="phone number")
     random_code = models.SmallIntegerField(verbose_name="random code")
     token = models.CharField(max_length=200, unique=True, verbose_name="token", blank=True, null=True)
     expriy_date = models.DateField(verbose_name="expriy date", auto_now_add=True)
