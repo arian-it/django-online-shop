@@ -26,6 +26,10 @@ INSTALLED_APPS = [
     # my_app
     'home.apps.HomeConfig',
     'account.apps.AccountConfig',
+    'product.apps.ProductConfig',
+
+    #pip
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
